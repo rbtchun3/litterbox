@@ -14,6 +14,7 @@ def main():
     fast_threshold = 20
     args = parser.parse_args()
     if args.realsense == True:
+      # Set directory path
       l_dir = "/home/chun/Downloads/20230216_130118_archive/RL_L"
       r_dir = "/home/chun/Downloads/20230216_130118_archive/RL_R"
     else:
@@ -21,9 +22,6 @@ def main():
       r_dir = "/home/chun/Downloads/20230216_130118_archive/R"
       npatchsize = 62
       fast_threshold = 5
-
-    # Set directory path
-
 
     # Get list of files in directory
     l_files = os.listdir(l_dir)
@@ -39,7 +37,7 @@ def main():
         if ct >= len(r_files):
             break
 
-        img1 = cv.imread(os.path.join(l_dir, l_files[ct]),cv.IMREAD_GRAYSCALE)          # queryImage
+        img1 = cv.imread(os.path.join(l_dir, l_files[ct]),cv.IMREAD_GRAYSCALE) # queryImage
         img2 = cv.imread(os.path.join(r_dir, r_files[ct]),cv.IMREAD_GRAYSCALE) # trainImage
         # Initiate SIFT detector
         # sift = cv.SIFT_create()
@@ -84,14 +82,19 @@ def main():
         # for m,n in matches:
         #     if m.distance < 0.75*n.distance:
         #         good.append([m])
+
+
         print(f"num of matches {len(matches)} with number of descriptor on left: {len(kp1)} |||| on right: {len(kp2)}")
         # cv.drawMatchesKnn expects list of lists as matches.
         img3 = cv.drawMatches(img1,kp1,img2,kp2,matches,None,flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
-        # output_image = cv.drawKeypoints(img1, kp1, 0, (0, 0, 255),
-        #                          flags=cv.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
+
+
         cv.imshow("disp",img3)
         ct += 1
         cv.waitKey(0)
 
 if __name__ == "__main__":
+    '''
+    The script does the left and right mono camera matching with Orb
+    '''
     main()

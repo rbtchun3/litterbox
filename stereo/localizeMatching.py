@@ -6,6 +6,19 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 import os, argparse
 
+'''
+example of matching.txt
+    1676570573140283346|1676570575590591669
+    1676570573140283346|1676570575840523720
+    1676570573140283346|1676570576340716839
+    1676570573140283346|1676570576840870857
+    1676570572760608196|1676570577289369345
+    1676570572291001797|1676570577792531490
+    1676570572291001797|1676570578197913885
+    1676570571647826672|1676570578601345778
+    1676570570695847511|1676570579190686226
+    1676570570439264297|1676570579789535284
+'''
 
 def main():
     parser = argparse.ArgumentParser()
@@ -80,11 +93,12 @@ def main():
         # for m,n in matches:
         #     if m.distance < 0.75*n.distance:
         #         good.append([m])
+
         print(f"num of matches {len(matches)} with number of descriptor on left: {len(kp1)} |||| on right: {len(kp2)}")
         # cv.drawMatchesKnn expects list of lists as matches.
         img3 = cv.drawMatches(img1,kp1,img2,kp2,matches,None,flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
-        # output_image = cv.drawKeypoints(img1, kp1, 0, (0, 0, 255),
-        #                          flags=cv.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
+
+
         cv.imshow("disp",img3)
         ct += 1
         cv.waitKey(0)

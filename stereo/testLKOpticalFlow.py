@@ -24,6 +24,9 @@ def concat_tile_resize(im_list_2d, interpolation=cv2.INTER_CUBIC):
     return vconcat_resize_min(im_list_v, interpolation=cv2.INTER_CUBIC)
 
 def main():
+    '''
+    The script mimics how rtabmap does stereomatching in function createsignature
+    '''
     parser = argparse.ArgumentParser()
     parser.add_argument("-r", "--realsense", action='store_true')
 
