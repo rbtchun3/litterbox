@@ -14,13 +14,13 @@ def odometry_callback(msg, prev_msg):
                 (position.y - prev_position.y) ** 2) ** 0.5
     total_distance += distance
 
-def calculate_distance(bag_file):
+def calculate_distance(bag_file, topic):
     global total_distance
     total_distance = 0.0
     prev_msg = None
     count = 0
     with rosbag.Bag(bag_file, 'r') as bag:
-        for topic, msg, t in bag.read_messages(topics=['/burro_base/odom']):
+        for topic, msg, t in bag.read_messages(topics=[topic]):
             if prev_msg is None:
                 prev_msg = msg
                 continue
@@ -37,6 +37,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Distance Calculator')
     parser.add_argument('-p', '--bag_path', type=str, nargs=1, required=False,
                         help='absolute path to a bag')
+    parser.add_argument('-t', '--topic', type=str, nargs=1, required=False, default='/burro_base/odom',
+                        help='absolute path to a bag')
     args = parser.parse_args()
 
     if args.bag_path is None:
@@ -46,6 +48,6 @@ if __name__ == '__main__':
     else:
         bagfile = args.bag_path[0]
 
-    distance = calculate_distance(bagfile)
+    distance = calculate_distance(bagfile, args.topic)
     print('Total traveled distance: {:.2f} meters'.format(distance))
 
