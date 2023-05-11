@@ -85,7 +85,7 @@ def main():
 
         ct += 1
 
-        orb = cv2.ORB_create(5000, patchSize = 62, fastThreshold=8)
+        orb = cv2.ORB_create(150, patchSize = 62, fastThreshold=8)
         ## find the keypoints / compute descriptor with ORB
         kp1 = orb.detect(old_gray,None)
         kp1, des1 = orb.compute(old_gray, kp1)
@@ -126,11 +126,11 @@ def main():
             if(abs(b - d) > 1): # movement estimated in Y
                 mask = cv2.line(mask, (int(a), int(b)), (int(c), int(d)),
                             (255,0,0), 2)
-                if (c - a <= 128):
-                    mask2 = cv2.line(mask2, (int(a), int(b)), (x_offset + int(c), int(d)),
-                                (0,255,255), 1)
+                if (c - a <= 128) and (abs(b - d) <= 10):
                     mask2 = cv2.line(mask2, (int(a), int(b)), (x_offset + int(c), int(b)),
                                 (255,255,0), 1)
+                    mask2 = cv2.line(mask2, (int(a), int(b)), (x_offset + int(c), int(d)),
+                                (0,255,255), 1)
             elif(c >= a): # valid disparity draw green left.x = c, right.x = a
                 disparities.append(c - a)
                 mask = cv2.line(mask, (int(a), int(b)), (int(c), int(d)),
